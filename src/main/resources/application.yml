@@ -1,0 +1,14 @@
+ruoli:
+  name: RuoLi
+  captchaType: char
+  captchaButton: 'on'
+
+server:
+  port: 9090
+
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    password:
+
