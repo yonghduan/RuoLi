@@ -1,11 +1,15 @@
 package com.ruoli.entity.common;
 
+import lombok.extern.java.Log;
+
 public class LoginUserBody
 {
     private String user;
     private String password;
     private String uuid;
     private String code;
+
+    public LoginUserBody(){}
 
     public LoginUserBody(final String user,final String password,final String uuid,final String code)
     {

@@ -1,10 +1,13 @@
 package com.ruoli.entity.datasource;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
+@TableName("record_login_info")
 public class RecordLoginInfoTable
 {
+
     private Long id;
     private String username;
     /**
@@ -15,6 +18,6 @@ public class RecordLoginInfoTable
     private String browser;
     private String status;
     private String msg;
-    private java.sql.Time loginTime;
+    private String loginTime;
 
 }

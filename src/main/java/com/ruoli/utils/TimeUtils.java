@@ -1,14 +1,16 @@
 package com.ruoli.utils;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TimeUtils
 {
-    public static java.sql.Time getSqlTime()
+    public static String getSqlTime()
     {
         Date date = new Date();
-        Time time = new Time(date.getTime());
-        return time;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String currentTime = simpleDateFormat.format(date);
+        return currentTime;
     }
 }
