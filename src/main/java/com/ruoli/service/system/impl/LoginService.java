@@ -1,5 +1,6 @@
 package com.ruoli.service.system.impl;
 
+import com.ruoli.common.Constants;
 import com.ruoli.common.exceptions.login.CaptchaErrorException;
 import com.ruoli.common.exceptions.login.CaptchaExpireException;
 import com.ruoli.common.redis.RedisCache;
@@ -34,19 +35,20 @@ public class LoginService implements ILoginService
         verifyCaptcha(loginUserBody);
         /**
          * 验证码正确
-         * 验证用户名，密码是否匹配*/
+         * 验证用户名，密码是否匹配
+         * use spring security to view whether password matches username*/
 
-        return "success";
     }
 
     public void verifyCaptcha(final LoginUserBody loginUserBody)
     {
         final String uuid = loginUserBody.getUuid();
         final String codeFromUser = loginUserBody.getCode();
-        final String codeFromRedis = redisCache.getCacheObject(uuid);
+        final String captchaCodeKey = Constants.CAPTCHA_CODE_KEY + uuid;
+        final String codeFromRedis = redisCache.getCacheObject(captchaCodeKey);
         if(codeFromRedis != null)
         {
-            if(codeFromRedis != codeFromUser)
+            if(!codeFromRedis.equals(codeFromUser))
             {
                 /**
                  * record login information in this thread*/

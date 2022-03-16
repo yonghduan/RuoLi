@@ -11,4 +11,4 @@ create table record_login_info(
     msg varchar (255) default '',
     login_time datetime ,
     primary key(id)
-)engine=innodb auto_increment=100
+)engine=innodb

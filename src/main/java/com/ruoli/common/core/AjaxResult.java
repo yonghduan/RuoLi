@@ -45,7 +45,13 @@ public class AjaxResult extends HashMap<String,Object>
 
     public static AjaxResult error()
     {
-        AjaxResult ajaxResult = new AjaxResult(-1,"error");
+        AjaxResult ajaxResult = new AjaxResult(1,"error");
+        return ajaxResult;
+    }
+
+    public static AjaxResult error(final String message)
+    {
+        AjaxResult ajaxResult = new AjaxResult(1,message);
         return ajaxResult;
     }
 
