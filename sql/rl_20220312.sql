@@ -1,5 +1,5 @@
 
-drop table if exists record_login_info
+drop table if exists record_login_info;
 create table record_login_info(
     id  bigint not null auto_increment,
     username varchar(50) default '',
@@ -11,4 +11,15 @@ create table record_login_info(
     msg varchar (255) default '',
     login_time datetime ,
     primary key(id)
-)engine=innodb
+)engine=innodb auto_increment=100
+
+drop table if exists system_user;
+create table system_user (
+    user_id bigint not null auto_increment,
+    username varchar (50) default '',
+    password varchar (50) default '',
+    is_expired char(1) default '0',
+    is_locked char(1) default '0',
+    is_credential_expired char (1) default '0',
+)
+

@@ -37,7 +37,7 @@ public class LoginService implements ILoginService
          * 验证码正确
          * 验证用户名，密码是否匹配
          * use spring security to view whether password matches username*/
-
+        return "success";
     }
 
     public void verifyCaptcha(final LoginUserBody loginUserBody)
