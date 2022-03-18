@@ -1,6 +1,6 @@
 ruoli:
   name: RuoLi
-  captchaType: char
+  captchaType: Math
   captchaButton: 'on'
 
 server:

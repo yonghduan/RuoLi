@@ -4,5 +4,7 @@ public enum LoginFlag
 {
     LOGIN_SUCCESS,
     CAPTCHA_EXPIRE,
-    CAPTCHA_ERROR
+    CAPTCHA_ERROR,
+    PASSWORD_ERROR,
+    LOGIN_FAIL
 }

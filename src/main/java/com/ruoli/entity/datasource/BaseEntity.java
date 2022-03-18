@@ -5,9 +5,9 @@ import java.sql.Time;
 public class BaseEntity
 {
     private String createdBy;
-    private java.sql.Time createdTime;
+    private String createdTime;
     private String updatedBy;
-    private java.sql.Time updatedTime;
+    private String updatedTime;
     private String remark;
 
     public void setCreatedBy(String createdBy)
@@ -15,7 +15,7 @@ public class BaseEntity
         this.createdBy = createdBy;
     }
 
-    public void setCreatedTime(Time createdTime)
+    public void setCreatedTime(String createdTime)
     {
         this.createdTime = createdTime;
     }
@@ -25,7 +25,7 @@ public class BaseEntity
         this.updatedBy = updatedBy;
     }
 
-    public void setUpdatedTime(Time updatedTime)
+    public void setUpdatedTime(String updatedTime)
     {
         this.updatedTime = updatedTime;
     }
@@ -40,7 +40,7 @@ public class BaseEntity
         return createdBy;
     }
 
-    public Time getCreatedTime()
+    public String getCreatedTime()
     {
         return createdTime;
     }
@@ -50,7 +50,7 @@ public class BaseEntity
         return updatedBy;
     }
 
-    public Time getUpdatedTime()
+    public String getUpdatedTime()
     {
         return updatedTime;
     }
