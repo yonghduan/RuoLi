@@ -16,8 +16,8 @@ create table record_login_info(
 drop table if exists system_user;
 create table system_user (
     user_id bigint not null auto_increment,
-    username varchar (50) default '',
-    password varchar (50) default '',
+    username varchar (50) unique default '',
+    password varchar (255) default '',
     sex char(1) default '0' comment '0 is boy,1 is girl',
     telephone_number varchar (50) default '',
     role_id char(1) default '0' comment '0 is super admin,1 is normal user',
@@ -30,7 +30,6 @@ create table system_user (
     updated_time datetime,
     updated_by varchar (50) default '',
     remark varchar (255) default '',
-    primary key(user_id),
-    primary key(username)
+    primary key(user_id)
 )engine=innodb
 

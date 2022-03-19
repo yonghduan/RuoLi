@@ -1,7 +1,7 @@
 ruoli:
   name: RuoLi
   captchaType: Math
-  captchaButton: 'on'
+  captchaButton: 'off'
 
 server:
   port: 9090

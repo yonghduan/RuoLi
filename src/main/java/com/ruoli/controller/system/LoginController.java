@@ -19,8 +19,10 @@ public class LoginController
     @PostMapping
     public AjaxResult login(@RequestBody LoginUserBody loginUserBody)
     {
-       loginService.handleLogin(loginUserBody);
-       return AjaxResult.success();
+       String token = loginService.handleLogin(loginUserBody);
+       AjaxResult ajaxResult = AjaxResult.success();
+       ajaxResult.put("token",token);
+       return ajaxResult;
     }
 
 

@@ -27,6 +27,11 @@ public class SystemUserTable extends BaseEntity implements UserDetails
     private boolean isCredentialExpired;
     private boolean isEnabled;
 
+    public boolean getSex()
+    {
+        return sex;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities ()
     {

@@ -6,18 +6,24 @@ import com.ruoli.common.exceptions.login.CaptchaErrorException;
 import com.ruoli.common.exceptions.login.CaptchaExpireException;
 import com.ruoli.common.redis.RedisCache;
 import com.ruoli.entity.common.LoginUserBody;
+import com.ruoli.entity.common.SuccessfullyLoginUser;
 import com.ruoli.entity.datasource.RecordLoginInfoTable;
+import com.ruoli.entity.datasource.SystemUserTable;
 import com.ruoli.enums.LoginFlag;
 import com.ruoli.enums.ServiceExceptionType;
 import com.ruoli.service.AsyncManager;
 import com.ruoli.service.factory.AsyncTaskFactory;
 import com.ruoli.service.impl.ConfigService;
+import com.ruoli.service.system.IJwtTokenService;
 import com.ruoli.service.system.ILoginService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,6 +45,11 @@ public class LoginService implements ILoginService
 
     @Resource
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private IJwtTokenService jwtTokenService;
+
+    private final static Logger log = LoggerFactory.getLogger(LoginService.class);
 
 
     @Override
@@ -80,8 +91,15 @@ public class LoginService implements ILoginService
         AsyncManager.me().executeScheduledTask(asyncTaskFactory.recordLoginInfo(user,LoginFlag.LOGIN_SUCCESS,"登录成功"));
         /**
          *login successfully,generating a redis cache to note login state for current user */
+        String tokenForUser = createSuccessfullyLoginUser((SystemUserTable) authentication.getPrincipal());
+        return tokenForUser;
+    }
 
-        return "success";
+    public String createSuccessfullyLoginUser(SystemUserTable systemUserTable)
+    {
+        SuccessfullyLoginUser successfullyLoginUser = SuccessfullyLoginUser.createSuccessfullyLoginUser(systemUserTable);
+        String token = jwtTokenService.generateToken(successfullyLoginUser);
+        return token;
     }
 
     public void verifyCaptcha(final LoginUserBody loginUserBody)
