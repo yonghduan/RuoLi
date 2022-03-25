@@ -15,4 +15,10 @@ public class Constants
     public static final String CAPTCHA_ERROR_MSG = "验证码错误";
 
     public static final String LOGIN_SUCCESS_MSG = "登陆成功";
+
+    public static final int TOKEN_EXPIRE_MINUTES = 20;
+
+    public static final String LOGIN_USER_KEY = "login_user_key";
+
+
 }

@@ -2,6 +2,7 @@ ruoli:
   name: RuoLi
   captchaType: Math
   captchaButton: 'off'
+  secretKey: 1233445545fdhhgfhglkfhgkfghj
 
 server:
   port: 9090

@@ -4,23 +4,28 @@ import com.ruoli.entity.datasource.SystemUserTable;
 import com.ruoli.utils.TimeUtils;
 import com.ruoli.utils.web.ServletUtils;
 import lombok.Data;
+import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 @Data
-public class SuccessfullyLoginUser
+public class SuccessfullyLoginUser implements Serializable
 {
+    private static final long serialVersionID = 1L;
+
     private Long userId;
     private String username;
     private boolean sex;
     private String telephoneNumber;
     private String browser;
     private String operateSystem;
+    private String redisKey;
 
     /**
      * save information of user in login state*/
-    private String loginTime;
-    private String expireTime;
+    private DateTime loginTime;
+    private DateTime expireTime;
     private Collection<?> authorities;
 
     public SuccessfullyLoginUser(SystemUserTable systemUserTable)
@@ -33,7 +38,7 @@ public class SuccessfullyLoginUser
         this.browser = ServletUtils.getBrowser();
         this.operateSystem = ServletUtils.getOS();
 
-        loginTime = TimeUtils.getSqlTime();
+        loginTime = new DateTime();
     }
 
     public static SuccessfullyLoginUser createSuccessfullyLoginUser(SystemUserTable systemUserTable)
