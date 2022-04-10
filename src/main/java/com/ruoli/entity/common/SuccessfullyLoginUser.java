@@ -5,6 +5,7 @@ import com.ruoli.utils.TimeUtils;
 import com.ruoli.utils.web.ServletUtils;
 import lombok.Data;
 import org.joda.time.DateTime;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -26,7 +27,7 @@ public class SuccessfullyLoginUser implements Serializable
      * save information of user in login state*/
     private DateTime loginTime;
     private DateTime expireTime;
-    private Collection<?> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
 
     public SuccessfullyLoginUser(SystemUserTable systemUserTable)
     {
@@ -37,6 +38,7 @@ public class SuccessfullyLoginUser implements Serializable
 
         this.browser = ServletUtils.getBrowser();
         this.operateSystem = ServletUtils.getOS();
+        this.authorities = null;
 
         loginTime = new DateTime();
     }

@@ -38,7 +38,10 @@ public class JwtTokenService implements IJwtTokenService
     @Override
     public SuccessfullyLoginUser getSuccessfullyLoginUser(HttpServletRequest request)
     {
-        String authentication = request.getHeader("Authentication");
+        String authentication = request.getHeader("Authorization");
+        if(authentication == null)
+            return null;
+
         String redisKey = parseTokenInJwtString(authentication);
         return redisCache.getCacheObject(redisKey);
     }

@@ -6,6 +6,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class ServletUtils
 {
@@ -35,6 +37,24 @@ public class ServletUtils
     public static String getOS()
     {
         return getUserAgent().getOperatingSystem().getName();
+    }
+
+    /**
+     * make json string to client*/
+    public static String renderString(HttpServletResponse response,String string)
+    {
+        try
+        {
+           response.setStatus(200);
+           response.setContentType("application/json");
+           response.setCharacterEncoding("utf-8");
+           response.getWriter().print(string);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
