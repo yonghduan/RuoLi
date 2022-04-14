@@ -43,6 +43,11 @@ public class SuccessfullyLoginUser implements Serializable
         loginTime = new DateTime();
     }
 
+    public boolean getSex()
+    {
+        return sex;
+    }
+
     public static SuccessfullyLoginUser createSuccessfullyLoginUser(SystemUserTable systemUserTable)
     {
         return new SuccessfullyLoginUser(systemUserTable);

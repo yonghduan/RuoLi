@@ -6,6 +6,7 @@ import com.ruoli.common.core.AjaxResult;
 import com.ruoli.common.redis.RedisCache;
 import com.ruoli.config.RuoLiConfig;
 import com.ruoli.enums.CaptchaType;
+import com.ruoli.mapper.SysMenuMapper;
 import com.ruoli.service.IConfigService;
 import com.ruoli.service.impl.ConfigService;
 import com.ruoli.utils.Base64;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -29,6 +31,9 @@ public class CaptchaController
 
     private RedisCache redisCache;
 
+
+    private SysMenuMapper sysMenuMapper;
+
     @Resource(name = "charCaptchaProducer")
     private DefaultKaptcha charCaptchaProducer;
 
@@ -36,10 +41,11 @@ public class CaptchaController
     private DefaultKaptcha mathCaptchaProducer;
 
     @Autowired
-    public CaptchaController(IConfigService configService,RedisCache redisCache)
+    public CaptchaController(IConfigService configService,RedisCache redisCache,SysMenuMapper sysMenuMapper)
     {
         this.configService = configService;
         this.redisCache = redisCache;
+        this.sysMenuMapper = sysMenuMapper;
     }
 
     @GetMapping
@@ -93,6 +99,12 @@ public class CaptchaController
         ajaxResult.put("captchaType",configService.getCaptchaType());
         ajaxResult.put("img", Base64.encode(fastByteArrayOutputStream.toByteArray()));
         ajaxResult.setSuccess();
+
+        /**
+         * test mybatis-plus xml way*/
+        List<String> menuPerms = sysMenuMapper.selectMenuPermByUserId(1L);
+        for(String perm : menuPerms)
+            System.out.println(perm);
         return ajaxResult;
     }
 }

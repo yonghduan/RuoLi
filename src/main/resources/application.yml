@@ -1,7 +1,7 @@
 ruoli:
   name: RuoLi
   captchaType: Math
-  captchaButton: 'off'
+  captchaButton: 'on'
   secretKey: 1233445545fdhhgfhglkfhgkfghj
 
 server:
@@ -19,4 +19,5 @@ spring:
     username: root
     password: 123456
 
-
+mybatis-plus:
+  mapper-locations: class*:/mapper*.xml
