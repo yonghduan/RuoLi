@@ -103,6 +103,7 @@ public class CaptchaController
         /**
          * test mybatis-plus xml way*/
         List<String> menuPerms = sysMenuMapper.selectMenuPermByUserId(1L);
+
         for(String perm : menuPerms)
             System.out.println(perm);
         return ajaxResult;
