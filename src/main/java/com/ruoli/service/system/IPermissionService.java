@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface IPermissionService
 {
-    void setAuthorities(SuccessfullyLoginUser successfullyLoginUser);
+    void setAuthoritiesForUser(SuccessfullyLoginUser successfullyLoginUser);
 
     Set<? extends GrantedAuthority> getAuthorities();
 }

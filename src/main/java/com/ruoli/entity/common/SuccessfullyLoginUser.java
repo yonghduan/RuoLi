@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Set;
 
 @Data
 public class SuccessfullyLoginUser implements Serializable
@@ -27,7 +28,7 @@ public class SuccessfullyLoginUser implements Serializable
      * save information of user in login state*/
     private DateTime loginTime;
     private DateTime expireTime;
-    private Collection<? extends GrantedAuthority> authorities;
+    private Set<String> authorities;
 
     public SuccessfullyLoginUser(SystemUserTable systemUserTable)
     {
@@ -51,5 +52,10 @@ public class SuccessfullyLoginUser implements Serializable
     public static SuccessfullyLoginUser createSuccessfullyLoginUser(SystemUserTable systemUserTable)
     {
         return new SuccessfullyLoginUser(systemUserTable);
+    }
+
+    public static boolean isAdmin(Long userId)
+    {
+        return userId != null && userId == 1L;
     }
 }

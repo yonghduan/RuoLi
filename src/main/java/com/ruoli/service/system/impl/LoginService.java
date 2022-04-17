@@ -16,6 +16,7 @@ import com.ruoli.service.factory.AsyncTaskFactory;
 import com.ruoli.service.impl.ConfigService;
 import com.ruoli.service.system.IJwtTokenService;
 import com.ruoli.service.system.ILoginService;
+import com.ruoli.service.system.IPermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class LoginService implements ILoginService
 
     @Autowired
     private IJwtTokenService jwtTokenService;
+
+    @Autowired
+    private IPermissionService permissionService;
 
     private final static Logger log = LoggerFactory.getLogger(LoginService.class);
 
@@ -98,6 +102,7 @@ public class LoginService implements ILoginService
     public String createSuccessfullyLoginUser(SystemUserTable systemUserTable)
     {
         SuccessfullyLoginUser successfullyLoginUser = SuccessfullyLoginUser.createSuccessfullyLoginUser(systemUserTable);
+        permissionService.setAuthoritiesForUser(successfullyLoginUser);
         String token = jwtTokenService.generateToken(successfullyLoginUser);
         return token;
     }

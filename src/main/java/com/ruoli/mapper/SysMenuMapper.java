@@ -1,15 +1,13 @@
 package com.ruoli.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ruoli.entity.datasource.SysMenu;
-import org.apache.ibatis.annotations.Mapper;
+import com.ruoli.entity.datasource.SysMenuTable;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 
-public interface SysMenuMapper extends BaseMapper<SysMenu>
+public interface SysMenuMapper extends BaseMapper<SysMenuTable>
 {
     List<String> selectMenuPermByUserId(@Param("userId") Long userId);
 }

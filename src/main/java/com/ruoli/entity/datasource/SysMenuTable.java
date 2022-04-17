@@ -7,7 +7,7 @@ import lombok.Data;
 
 @TableName("sys_menu")
 @Data
-public class SysMenu extends BaseEntity
+public class SysMenuTable extends BaseEntity
 {
     @TableId(type = IdType.AUTO)
     private Long menuId;

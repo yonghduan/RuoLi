@@ -31,9 +31,6 @@ public class CaptchaController
 
     private RedisCache redisCache;
 
-
-    private SysMenuMapper sysMenuMapper;
-
     @Resource(name = "charCaptchaProducer")
     private DefaultKaptcha charCaptchaProducer;
 
@@ -41,11 +38,11 @@ public class CaptchaController
     private DefaultKaptcha mathCaptchaProducer;
 
     @Autowired
-    public CaptchaController(IConfigService configService,RedisCache redisCache,SysMenuMapper sysMenuMapper)
+    public CaptchaController(IConfigService configService,RedisCache redisCache)
     {
         this.configService = configService;
         this.redisCache = redisCache;
-        this.sysMenuMapper = sysMenuMapper;
+
     }
 
     @GetMapping
@@ -100,12 +97,6 @@ public class CaptchaController
         ajaxResult.put("img", Base64.encode(fastByteArrayOutputStream.toByteArray()));
         ajaxResult.setSuccess();
 
-        /**
-         * test mybatis-plus xml way*/
-        List<String> menuPerms = sysMenuMapper.selectMenuPermByUserId(1L);
-
-        for(String perm : menuPerms)
-            System.out.println(perm);
         return ajaxResult;
     }
 }

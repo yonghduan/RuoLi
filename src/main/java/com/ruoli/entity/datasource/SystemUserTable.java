@@ -12,7 +12,7 @@ import java.util.Collection;
 
 @Data
 @TableName("system_user")
-public class SystemUserTable extends BaseEntity implements UserDetails
+public class SystemUserTable implements UserDetails
 {
     @TableId(value = "user_id",type = IdType.AUTO)
     private Long userId;
@@ -26,6 +26,12 @@ public class SystemUserTable extends BaseEntity implements UserDetails
     private boolean isLocked;
     private boolean isCredentialExpired;
     private boolean isEnabled;
+
+    private String createdBy;
+    private String createdTime;
+    private String updatedBy;
+    private String updatedTime;
+    private String remark;
 
     public boolean getSex()
     {
