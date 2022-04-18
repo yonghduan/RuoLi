@@ -1,8 +1,10 @@
 package com.ruoli.service.datasource.impl;
 
+import com.ruoli.entity.datasource.SysMenuTable;
 import com.ruoli.mapper.SysMenuMapper;
 import com.ruoli.service.datasource.ISysMenuService;
 import com.ruoli.utils.StringUtils;
+import com.ruoli.utils.web.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,5 +35,20 @@ public class SysMenuService implements ISysMenuService
             }
         }
         return permsSet;
+    }
+
+    @Override
+    public List<SysMenuTable> selectMenuTreeByUserId(Long userId)
+    {
+        List<SysMenuTable> menuList = null;
+        if(SecurityUtils.isAdmin(userId))
+        {
+            menuList = sysMenuMapper.selectMenuTreeAll();
+        }
+        else
+        {
+            menuList = sysMenuMapper.selectMenuTreeByUserId(userId);
+        }
+        return null;
     }
 }

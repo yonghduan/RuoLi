@@ -86,6 +86,7 @@ public class JwtTokenService implements IJwtTokenService
          * if expire time - current time < 15 minutes,set expire time - current time = 20 minutes,
          * else:keep expire time unchanged*/
         DateTime currentTime = new DateTime();
+        successfullyLoginUser.setLoginTime(currentTime);
         int minutesOfCurrentTime = currentTime.getMinuteOfDay();
 
         DateTime expireTime = successfullyLoginUser.getExpireTime();

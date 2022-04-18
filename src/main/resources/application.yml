@@ -21,4 +21,4 @@ spring:
 
 mybatis-plus:
   mapperLocations: mapper.system/*.xml
-  type-aliases-package: con.ruoli.entity.datasource
+  type-aliases-package: com.ruoli.entity.datasource

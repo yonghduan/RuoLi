@@ -10,4 +10,8 @@ import java.util.List;
 public interface SysMenuMapper extends BaseMapper<SysMenuTable>
 {
     List<String> selectMenuPermByUserId(@Param("userId") Long userId);
+
+    List<SysMenuTable> selectMenuTreeAll();
+
+    List<SysMenuTable> selectMenuTreeByUserId(Long userId);
 }
