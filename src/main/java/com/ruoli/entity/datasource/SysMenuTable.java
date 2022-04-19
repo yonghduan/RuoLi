@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @TableName("sys_menu")
 @Data
 public class SysMenuTable extends BaseEntity
@@ -24,6 +27,8 @@ public class SysMenuTable extends BaseEntity
     private Character status;
     private String perms;
     private String icon;
+
+    private List<SysMenuTable> children = new ArrayList<SysMenuTable>();
 
 
 }

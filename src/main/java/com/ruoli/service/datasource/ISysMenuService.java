@@ -10,4 +10,6 @@ public interface ISysMenuService
     Set<String> selectMenuPermsByUserId(Long UserId);
 
     List<SysMenuTable> selectMenuTreeByUserId(Long userId);
+
+
 }
