@@ -97,12 +97,15 @@ public class SysMenuService implements ISysMenuService
         return getChildMenuList(menuList,singleMenu).size() > 0;
     }
 
+    @Override
     public List<MenuReturnBody> buildMenus(List<SysMenuTable> menuList)
     {
+        List<MenuReturnBody> returnMenu = new ArrayList<>();
         for(Iterator<SysMenuTable> iterator = menuList.iterator();iterator.hasNext();)
         {
             SysMenuTable singleMenu = iterator.next();
-
+            returnMenu.add(new MenuReturnBody(singleMenu));
         }
+        return returnMenu;
     }
 }

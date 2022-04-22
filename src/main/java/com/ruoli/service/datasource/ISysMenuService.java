@@ -1,5 +1,6 @@
 package com.ruoli.service.datasource;
 
+import com.ruoli.entity.common.MenuReturnBody;
 import com.ruoli.entity.datasource.SysMenuTable;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface ISysMenuService
 
     List<SysMenuTable> selectMenuTreeByUserId(Long userId);
 
-
+    List<MenuReturnBody> buildMenus(List<SysMenuTable> menuList);
 }

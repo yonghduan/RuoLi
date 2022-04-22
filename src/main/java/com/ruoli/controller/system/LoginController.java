@@ -7,12 +7,15 @@ import com.ruoli.common.redis.RedisCache;
 import com.ruoli.entity.common.LoginUserBody;
 import com.ruoli.entity.common.LoginUserInfo;
 import com.ruoli.entity.common.SuccessfullyLoginUser;
+import com.ruoli.entity.datasource.SysMenuTable;
+import com.ruoli.service.datasource.ISysMenuService;
 import com.ruoli.service.datasource.ISysRoleService;
 import com.ruoli.service.system.ILoginService;
 import com.ruoli.utils.web.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -24,6 +27,9 @@ public class LoginController
 
     @Autowired
     private ISysRoleService roleService;
+
+    @Autowired
+    private ISysMenuService sysMenuService;
 
     @PostMapping("/login")
     public AjaxResult login(@RequestBody LoginUserBody loginUserBody)
@@ -44,6 +50,16 @@ public class LoginController
 
         Set<String> roleSet = roleService.selectRoleByUserId(successfullyLoginUser.getUserId());
         ajaxResult.put("role",roleSet);
+        return ajaxResult;
+    }
+
+    @GetMapping("/getRouters")
+    public AjaxResult getRouters()
+    {
+        SuccessfullyLoginUser successfullyLoginUser = SecurityUtils.getSuccessfullyLoginUser();
+        AjaxResult ajaxResult = AjaxResult.success();
+        List<SysMenuTable> menuList = sysMenuService.selectMenuTreeByUserId(successfullyLoginUser.getUserId());
+        ajaxResult.put("menu",sysMenuService.buildMenus(menuList));
         return ajaxResult;
     }
 

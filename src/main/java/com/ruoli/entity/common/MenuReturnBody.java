@@ -26,7 +26,7 @@ public class MenuReturnBody
 
     private MetaVo metaVo;
 
-    private List<MenuReturnBody> children = new ArrayList<>();
+    private List<MenuReturnBody> children;
 
     public MenuReturnBody(SysMenuTable sysMenuTable)
     {
@@ -40,6 +40,11 @@ public class MenuReturnBody
         this.query = sysMenuTable.getQuery();
         this.alwaysShow = true;
         this.metaVo = new MetaVo(sysMenuTable.getIcon(),sysMenuTable.getIsCache());
+        if(sysMenuTable.getChildren() != null)
+            children = new ArrayList<>();
+        else
+            children = null;
+
         for(Iterator<SysMenuTable> iterator = sysMenuTable.getChildren().iterator();iterator.hasNext();)
         {
             SysMenuTable singleMenu = iterator.next();
