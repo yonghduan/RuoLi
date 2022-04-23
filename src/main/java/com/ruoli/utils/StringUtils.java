@@ -14,5 +14,6 @@ public class StringUtils
         return org.springframework.util.StringUtils.hasText(str);
     }
 
+    public static String EMPTY = "";
 
 }
