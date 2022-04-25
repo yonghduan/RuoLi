@@ -23,6 +23,13 @@ public class LoginUserInfo
     private String expireTime;
     private Set<String> authorities;
 
+    public LoginUserInfo(){}
+
+    public boolean getSex()
+    {
+        return sex;
+    }
+
     public LoginUserInfo(SuccessfullyLoginUser successfullyLoginUser)
     {
         this.userId = successfullyLoginUser.getUserId();

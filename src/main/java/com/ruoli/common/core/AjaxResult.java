@@ -43,6 +43,12 @@ public class AjaxResult extends HashMap<String,Object>
         return ajaxResult;
     }
 
+    public static AjaxResult success(String message)
+    {
+        AjaxResult ajaxResult = new AjaxResult(200,message);
+        return ajaxResult;
+    }
+
     public static AjaxResult error()
     {
         AjaxResult ajaxResult = new AjaxResult(1,"error");

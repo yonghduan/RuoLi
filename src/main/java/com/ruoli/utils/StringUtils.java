@@ -16,4 +16,14 @@ public class StringUtils
 
     public static String EMPTY = "";
 
+    public static boolean isNotEmpty(String str)
+    {
+        return str != null && !str.equals(EMPTY);
+    }
+
+    public static boolean isEmpty(String str)
+    {
+        return !isNotEmpty(str);
+    }
+
 }
