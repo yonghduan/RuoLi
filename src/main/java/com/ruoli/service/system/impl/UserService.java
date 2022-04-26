@@ -55,11 +55,15 @@ public class UserService implements IUserService
         boolean sex = systemUserTable.getSex();
         String modifiedTelephone = systemUserTable.getTelephoneNumber();
 
-        UpdateWrapper<SystemUserTable> updateWrapper = new UpdateWrapper<>();
+      /*  UpdateWrapper<SystemUserTable> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("user_id",systemUserTable.getUserId())
                 .set("username",modifiedUsername).set("telephone_number",modifiedTelephone)
                 .set("sex",sex);
-        systemUserMapper.update(null,updateWrapper);
+        systemUserMapper.update(null,updateWrapper);*/
+        UpdateWrapper<SystemUserTable> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("user_id",systemUserTable.getUserId());
+        systemUserMapper.update(systemUserTable,updateWrapper);
+
     }
 
 

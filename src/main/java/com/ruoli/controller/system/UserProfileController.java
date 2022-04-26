@@ -71,7 +71,7 @@ public class UserProfileController extends BaseController
         String modifiedTelephone = loginUserInfo.getTelephoneNumber();
         String originTelephone  = getSuccessfullyLoginUser().getTelephoneNumber();
         if(StringUtils.isNotEmpty(modifiedTelephone) && !modifiedTelephone.equals(originTelephone)
-                && !userService.checkIfFieldUnique("telephone_number",modifiedTelephone))
+                && userService.checkIfFieldUnique("telephone_number",modifiedTelephone))
         {
             return AjaxResult.error("电话：" + modifiedTelephone + "已经存在");
         }
