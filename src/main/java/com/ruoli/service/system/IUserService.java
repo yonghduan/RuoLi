@@ -8,5 +8,7 @@ public interface IUserService
 
     boolean checkIfFieldUnique(String columnName,String username);
 
-    void updateUserProfile(SystemUserTable systemUserTable);
+    int updateUserProfile(SystemUserTable systemUserTable);
+
+    int updateUserPwd(double userId,String newPassword);
 }

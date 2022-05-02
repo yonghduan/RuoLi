@@ -9,6 +9,8 @@ import com.ruoli.mapper.SysPostMapper;
 import com.ruoli.mapper.SystemUserMapper;
 import com.ruoli.service.system.IUserService;
 import com.ruoli.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -25,6 +27,9 @@ public class UserService implements IUserService
     @Resource
     private SystemUserMapper systemUserMapper;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public String selectPostByUsername(String username)
     {
@@ -38,18 +43,20 @@ public class UserService implements IUserService
     }
 
     @Override
-    public boolean checkIfFieldUnique(String columnName,String username)
+    public boolean checkIfFieldUnique(String columnName,String fieldValue)
     {
-        QueryWrapper<SystemUserTable> queryWrapper = new QueryWrapper<SystemUserTable>().eq(columnName,username);
-        List<SystemUserTable> userList = systemUserMapper.selectList(queryWrapper);
-        if(userList == null)
+        QueryWrapper<SystemUserTable> queryWrapper = new QueryWrapper<SystemUserTable>();
+        queryWrapper.eq(columnName,fieldValue);
+        queryWrapper.last("limit 1");
+        int fieldCount = systemUserMapper.selectCount(queryWrapper);
+        if(fieldCount <= 0)
             return true;
         else
             return false;
     }
 
     @Override
-    public void updateUserProfile(SystemUserTable systemUserTable)
+    public int updateUserProfile(SystemUserTable systemUserTable)
     {
         String modifiedUsername = systemUserTable.getUsername();
         boolean sex = systemUserTable.getSex();
@@ -62,8 +69,18 @@ public class UserService implements IUserService
         systemUserMapper.update(null,updateWrapper);*/
         UpdateWrapper<SystemUserTable> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("user_id",systemUserTable.getUserId());
-        systemUserMapper.update(systemUserTable,updateWrapper);
+        int isUpdateSuccess = systemUserMapper.update(systemUserTable,updateWrapper);
+        return isUpdateSuccess;
+    }
 
+    @Override
+    public int updateUserPwd(double userId,String newPassword)
+    {
+           String encodedPwd = bCryptPasswordEncoder.encode(newPassword);
+           UpdateWrapper<SystemUserTable> updateWrapper = new UpdateWrapper<>();
+           updateWrapper.eq("user_id",userId).set("password",encodedPwd);
+           int isSuccess = systemUserMapper.update(null,updateWrapper);
+           return isSuccess;
     }
 
 

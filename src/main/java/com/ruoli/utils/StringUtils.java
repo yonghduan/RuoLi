@@ -26,4 +26,9 @@ public class StringUtils
         return !isNotEmpty(str);
     }
 
+    public static String trim(String str)
+    {
+        return str == null ? "" : str.trim();
+    }
+
 }

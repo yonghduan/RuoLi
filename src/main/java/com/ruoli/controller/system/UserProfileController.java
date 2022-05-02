@@ -13,8 +13,10 @@ import com.ruoli.utils.StringUtils;
 import com.ruoli.utils.web.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -29,6 +31,9 @@ public class UserProfileController extends BaseController
 
     @Autowired
     private IDeptService deptService;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @GetMapping
     public AjaxResult getUserProfile()
@@ -62,7 +67,7 @@ public class UserProfileController extends BaseController
         String originUsername = getSuccessfullyLoginUser().getUsername();
         if(!originUsername.equals(usernameModified))
         {
-            if(StringUtils.isEmpty(usernameModified) && !userService.checkIfFieldUnique("username",usernameModified))
+            if(StringUtils.isNotEmpty(usernameModified) && !userService.checkIfFieldUnique("username",usernameModified))
             {
                 return AjaxResult.error("用户名:" + usernameModified + "为空或者该用户名已存在");
             }
@@ -81,15 +86,40 @@ public class UserProfileController extends BaseController
         systemUserTable.setUsername(usernameModified);
         systemUserTable.setTelephoneNumber(modifiedTelephone);
         systemUserTable.setSex(loginUserInfo.getSex());
-        userService.updateUserProfile(systemUserTable);
+        int isUpdateSuccess = userService.updateUserProfile(systemUserTable);
 
         /**
          * update cache*/
-        SuccessfullyLoginUser successfullyLoginUser = getSuccessfullyLoginUser();
-        successfullyLoginUser.setUsername(usernameModified);
-        successfullyLoginUser.setTelephoneNumber(modifiedTelephone);
-        successfullyLoginUser.setSex(loginUserInfo.getSex());
+       if(isUpdateSuccess >= 0)
+       {
+           SuccessfullyLoginUser successfullyLoginUser = getSuccessfullyLoginUser();
+           successfullyLoginUser.setUsername(usernameModified);
+           successfullyLoginUser.setTelephoneNumber(modifiedTelephone);
+           successfullyLoginUser.setSex(loginUserInfo.getSex());
 
-        return AjaxResult.success("更新用户信息成功");
+           return AjaxResult.success("更新用户信息成功");
+       }
+
+       return AjaxResult.error("更新用户信息异常，请联系管理员");
+    }
+
+    @PutMapping("updatePwd")
+    public AjaxResult updatePwd(@RequestBody Map<String,Object> mapParam )
+    {
+        String originPwd = getSuccessfullyLoginUser().getPassword();
+        String oldPwd = (String)mapParam.get("oldPwd");
+        if(!bCryptPasswordEncoder.matches(oldPwd,originPwd))
+        {
+            return AjaxResult.error("旧密码错误");
+        }
+
+        int isSuccess = userService.updateUserPwd(getSuccessfullyLoginUser().getUserId(),(String)mapParam.get("newPwd"));
+        if(isSuccess >= 0)
+        {
+            getSuccessfullyLoginUser().setPassword(bCryptPasswordEncoder.encode((String)mapParam.get("newPwd")));
+            return AjaxResult.success("更新密码成功");
+        }
+
+        return AjaxResult.error("更新密码异常，请联系管理员");
     }
 }

@@ -23,6 +23,7 @@ public class SuccessfullyLoginUser implements Serializable
     private String browser;
     private String operateSystem;
     private String redisKey;
+    private String password;
 
     /**
      * save information of user in login state*/
@@ -40,6 +41,7 @@ public class SuccessfullyLoginUser implements Serializable
         this.browser = ServletUtils.getBrowser();
         this.operateSystem = ServletUtils.getOS();
         this.authorities = null;
+        this.password = systemUserTable.getPassword();
 
         loginTime = new DateTime();
     }

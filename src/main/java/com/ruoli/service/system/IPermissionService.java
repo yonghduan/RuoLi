@@ -10,4 +10,6 @@ public interface IPermissionService
     void setAuthoritiesForUser(SuccessfullyLoginUser successfullyLoginUser);
 
     Set<? extends GrantedAuthority> getAuthorities();
+
+    
 }
