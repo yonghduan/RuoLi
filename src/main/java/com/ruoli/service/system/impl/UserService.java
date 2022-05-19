@@ -83,5 +83,12 @@ public class UserService implements IUserService
            return isSuccess;
     }
 
+    @Override
+    public List<SystemUserTable> selectUserList()
+    {
+        List<SystemUserTable> userList = systemUserMapper.selectList(null);
+        return userList;
+    }
+
 
 }
