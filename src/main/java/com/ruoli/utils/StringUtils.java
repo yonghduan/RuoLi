@@ -33,4 +33,14 @@ public class StringUtils
         return str == null ? "" : str.trim();
     }
 
+    public static boolean isNull(Object object)
+    {
+        return object == null;
+    }
+
+    public static boolean isNotNull(Object object)
+    {
+        return !isNull(object);
+    }
+
 }
