@@ -4,6 +4,7 @@ import com.ruoli.common.annotation.Excel;
 import com.ruoli.common.annotation.Excels;
 import com.ruoli.common.core.text.Convert;
 import net.sf.jsqlparser.expression.operators.relational.OldOracleJoinBinaryExpression;
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
@@ -45,6 +46,10 @@ public class ExcelUtil<T>
 
     private Map<String, CellStyle> styles;
 
+    public static final String[] FORMULA_STR = {"=","-","+","@"};
+
+    public static final String FORMULA_REGEX_STR = "|-|\\+|@";
+
 
     public ExcelUtil(Class<T> clazz)
     {
@@ -66,10 +71,7 @@ public class ExcelUtil<T>
 
     public void exportExcel(HttpServletResponse response)
     {
-        try
-        {
-            writeSheet();
-        }
+
     }
 
     public void writeSheet()
@@ -108,7 +110,7 @@ public class ExcelUtil<T>
             {
                 Field field = (Field) os[0];
                 Excel excel = (Excel) os[1];
-                this.addCell(excel,row,vo,field,column ++);
+
             }
         }
     }
@@ -116,48 +118,19 @@ public class ExcelUtil<T>
     public Cell addCell(Excel attr,Row row,T vo,Field field,int column) throws Exception
     {
         Cell cell = null;
-        try
+
+
+        return null;
+    }
+
+    public void setCellVo(Object value,Excel attr,Cell cell)
+    {
+        if(Excel.ColumnType.STRING == attr.cellType())
         {
-            row.setHeight(maxHeight);
-
-            if(attr.isExport())
+            String cellValue = Convert.toStr(value);
+            if(org.apache.commons.lang3.StringUtils.startsWithAny(cellValue,FORMULA_STR))
             {
-                cell = row.createCell(column);
-                int align = attr.align().value();
-                cell.setCellStyle(styles.get("data" + (align >= 1 && align <= 3 ? align : "")));
-
-                // 用于读取对象中的属性
-                Object value = getTargetValue(vo, field, attr);
-                String dateFormat = attr.dateFormat();
-                String readConverterExp = attr.readConverterExp();
-                String separator = attr.separator();
-                String dictType = attr.dictType();
-                if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value))
-                {
-                    cell.setCellValue(parseDateToStr(dateFormat, value));
-                }
-                else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value))
-                {
-                    cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
-                }
-                else if (StringUtils.isNotEmpty(dictType) && StringUtils.isNotNull(value))
-                {
-                    cell.setCellValue(convertDictByExp(Convert.toStr(value), dictType, separator));
-                }
-                else if (value instanceof BigDecimal && -1 != attr.scale())
-                {
-                    cell.setCellValue((((BigDecimal) value).setScale(attr.scale(), attr.roundingMode())).toString());
-                }
-                else if (!attr.handler().equals(ExcelHandlerAdapter.class))
-                {
-                    cell.setCellValue(dataFormatHandlerAdapter(value, attr));
-                }
-                else
-                {
-                    // 设置列类型
-                    setCellVo(value, attr, cell);
-                }
-                addStatisticsData(column, Convert.toStr(value), attr);
+                cellValue = RegExUtils.replaceFirst(cellValue,FORMULA_REGEX_STR,"\t$0");
             }
         }
     }
